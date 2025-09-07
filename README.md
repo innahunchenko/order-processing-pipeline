@@ -1,6 +1,4 @@
 # order-processing-pipeline
-# order-processing-pipeline
-Order Processing Pipeline
 
 This project implements a **serverless order processing pipeline** on AWS.  
 It ingests orders from a CSV file via API Gateway, processes them with AWS Lambda, and stores them in DynamoDB through an event-driven pipeline.
