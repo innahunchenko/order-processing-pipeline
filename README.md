@@ -7,7 +7,7 @@ It ingests orders from a CSV file via API Gateway, processes them with AWS Lambd
 
 The solution consists of the following components:
 
-- **API Gateway** – exposes a `POST /upload` endpoint for uploading CSV files (orders.scv).
+- **API Gateway** – exposes a `POST /upload` endpoint for uploading CSV files (orders.csv).
 - **CSV Parser Lambda (`csv-parser-lambda`)** – parses the uploaded CSV file and sends individual order records as messages to SQS.
 - **Amazon SQS (OrdersQueue)** – decouples ingestion and processing. Messages that fail processing after two attempts are redirected to a Dead Letter Queue (OrdersDLQ).
 - **Order Processor Lambda (`order-processor-lambda`)** – consumes messages from SQS and writes order records into DynamoDB.
