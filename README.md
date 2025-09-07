@@ -16,7 +16,7 @@ The solution consists of the following components:
 
 ## Workflow
 
-1. 1. Client uploads a CSV file (`orders.csv`) via the `POST /upload` API Gateway endpoint (e.g., using **Postman** or `curl`).
+1. Client uploads a CSV file (`orders.csv`) via the `POST /upload` API Gateway endpoint (e.g., using **Postman** or `curl`).
 2. The **CSV Parser Lambda** reads the file, parses each row, and sends messages to SQS.
 3. **Order Processor Lambda** is triggered by SQS and stores the parsed order data in DynamoDB.
 4. Failed messages are redirected to the DLQ for troubleshooting.
