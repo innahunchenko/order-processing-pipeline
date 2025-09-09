@@ -1,14 +1,14 @@
 # order-processing-pipeline
 
 This project implements a **serverless order processing pipeline** on AWS.  
-It ingests orders from a CSV file via API Gateway, processes them with AWS Lambda, and stores them in DynamoDB through an event-driven pipeline.
+It ingests orders from a CSV file(1000 and more orders) via API Gateway, processes them with AWS Lambda, and stores them in DynamoDB through an event-driven pipeline.
 
 ## Architecture
 
 The solution consists of the following components:
 
 - **API Gateway** – exposes a `POST /upload` endpoint for uploading CSV files (orders.csv).
-- **CSV Parser Lambda (`csv-parser-lambda`)** – parses the uploaded CSV file and sends individual order records as messages to SQS.
+- **CSV Parser Lambda (`csv-parser-lambda`)** – parses the uploaded CSV file (1000 and more orders) and sends individual order records as messages to SQS.
 - **Amazon SQS (OrdersQueue)** – decouples ingestion and processing. Messages that fail processing after two attempts are redirected to a Dead Letter Queue (OrdersDLQ).
 - **Order Processor Lambda (`order-processor-lambda`)** – consumes messages from SQS and writes order records into DynamoDB.
   - Enabled with *ReportBatchItemFailures* for partial failure handling.
