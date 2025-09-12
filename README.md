@@ -7,11 +7,11 @@ It ingests orders from a CSV file(1000 and more orders) via API Gateway, process
 
 The solution consists of the following components:
 
-- **API Gateway** – exposes a `POST /upload` endpoint for uploading CSV files (orders.csv).
-- **CSV Parser Lambda (`csv-parser-lambda`)** – parses the uploaded CSV file (1000 and more orders) and sends individual order records as messages to SQS.
-- **Amazon SQS (OrdersQueue)** – decouples ingestion and processing. Messages that fail processing after two attempts are redirected to a Dead Letter Queue (OrdersDLQ).
+- **API Gateway** – exposes a `POST /upload` endpoint for uploading CSV files (`orders.csv`).
+- **CSV Parser Lambda (`csv-parser-lambda`)** – parses the uploaded CSV file and sends order records as messages to SQS in **batches**.
+- **Amazon SQS (`OrdersQueue`)** – decouples ingestion and processing. Messages that fail processing after two attempts are redirected to a Dead Letter Queue (`OrdersDLQ`).  
+  The queue is configured with **ReportBatchItemFailures**, which allows partial failure handling when messages are consumed by the Lambda.
 - **Order Processor Lambda (`order-processor-lambda`)** – consumes messages from SQS and writes order records into DynamoDB.
-  - Enabled with *ReportBatchItemFailures* for partial failure handling.
 - **Amazon DynamoDB (Orders table)** – stores processed orders with a composite primary key (`pk`, `sk`).
 
 ## Workflow
